@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private GameObject focalPoint;
     void Start()
     {
+
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
     }

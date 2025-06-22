@@ -3,12 +3,25 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject powerupPrefab;
 
     private float spawnRange = 9;
+    public int enemyCount;
+    public int waveNumber = 1;
     void Start()
     {
-       
-        Instantiate(enemyPrefab, GenerateSpawnPoint(), enemyPrefab.transform.rotation);
+        SpawnEnemyWave(waveNumber);
+        Instantiate(powerupPrefab, GenerateSpawnPoint(), enemyPrefab.transform.rotation);
+    }
+    private void Update()
+    {
+        enemyCount = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
+        if(enemyCount == 0)
+        {
+            waveNumber++;
+            SpawnEnemyWave(waveNumber);
+            Instantiate(powerupPrefab, GenerateSpawnPoint(), enemyPrefab.transform.rotation);
+        }
     }
     private Vector3 GenerateSpawnPoint()
     {
@@ -17,9 +30,11 @@ public class SpawnManager : MonoBehaviour
         Vector3 randomPos = new Vector3(spawnPosX, 0, spawnPosZ);
         return randomPos;
     }
-    // Update is called once per frame
-    void Update()
+    void SpawnEnemyWave(int enemyToSpawn)
     {
-        
+        for(int i = 0; i < enemyToSpawn; i++)
+        {
+            Instantiate(enemyPrefab, GenerateSpawnPoint(), enemyPrefab.transform.rotation);
+        }
     }
 }
